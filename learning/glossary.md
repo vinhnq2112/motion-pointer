@@ -16,3 +16,11 @@ One row per technical term, added the first time the term is used (`CLAUDE.md` w
 | screen bound | giới hạn màn hình | Quy tắc giữ con trỏ luôn nằm trong màn hình. | Con trỏ chạm mép phải thì dừng ở x = 1919. | 2026-10-21 |
 | starter code | code mẫu ban đầu | Code có sẵn trong bài tập để learner điền tiếp. | File có chữ ký hàm và các `TODO`. | 2026-10-21 |
 | pseudocode | code giả | Các bước của thuật toán viết bằng lời, chưa phải code thật. | "cộng tốc độ × dt vào góc" | 2026-10-21 |
+| body frame | hệ trục gắn với remote | Ba trục x, y, z gắn chặt vào remote và xoay cùng remote. | x luôn dọc thân remote, kể cả khi remote nghiêng. | 2026-10-21 |
+| ground truth | giá trị đúng (đáp án thật) | Giá trị thật mà simulator biết chắc, dùng để chấm code của bạn. | Góc yaw thật = 10°; code của bạn tính 9.6° → sai 0.4°. | 2026-10-21 |
+| scenario | kịch bản chuyển động | Một chuyển động ghi sẵn, chạy giống nhau mỗi lần. | `yaw-sweep`: trái 20°, phải 20°, về giữa. | 2026-10-21 |
+| plug-in interface | chỗ cắm code | Hàm nhỏ, cố định, nơi code của bạn nối vào simulator. | `onImuSample(s, p)` | 2026-10-21 |
+| knob | núm chỉnh | Một thiết lập của simulator, bật dần theo bài học. | `gyroBias = 0.5` °/s | 2026-10-21 |
+| headless mode | chạy không cửa sổ | Chạy simulator không mở cửa sổ, chỉ in số. Dùng cho tests. | `imu-sim-headless.exe --scenario still` | 2026-10-21 |
+| sample | mẫu dữ liệu | Một lần đọc cảm biến: dt, gyro, accel. | 100 sample mỗi giây → dt = 0.01 s | 2026-10-21 |
+| gain | hệ số khuếch đại | Số pixel con trỏ đi được cho mỗi độ xoay. | gain 40 px/°: yaw 10° → con trỏ đi 400 px | 2026-10-21 |

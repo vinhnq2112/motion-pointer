@@ -4,4 +4,4 @@ Personal notes built from questions, lessons, reviews and mistakes. Maintained b
 
 | Category | Topic | File | Entries | Updated |
 |---|---|---|---|---|
-| _(empty — first notes will appear here)_ | | | | |
+| cpp | Pass by value vs pass by reference | `cpp/pass-by-value-vs-reference.md` | 1 | 2026-10-21 |
