@@ -1,0 +1,7 @@
+build/
+out/
+.vs/
+*.user
+CMakeUserPresets.json
+__pycache__/
+node_modules/
