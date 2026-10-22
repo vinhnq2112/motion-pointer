@@ -76,6 +76,8 @@ struct Scenario {
     Euler rates(double t) const;
 };
 const std::vector<Scenario>& scenarios();
+// Single-axis motions with neutral names, for "which axis?" exercises (window app: --mystery).
+const std::vector<Scenario>& mysteryScenarios();
 const Scenario* findScenario(const std::string& name);
 
 } // namespace imusim

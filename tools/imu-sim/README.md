@@ -33,6 +33,7 @@ Kết quả đúng: `100% tests passed`.
 |---|---|
 | `build\imu-sim\Release\imu-sim.exe` | Mở cửa sổ 3D, xoay remote bằng chuột |
 | `build\imu-sim\Release\imu-sim.exe --scenario yaw-sweep` | Mở cửa sổ và chạy ngay một scenario |
+| `build\imu-sim\Release\imu-sim.exe --mystery` | Chế độ "bí ẩn": phím 1–3 chạy 3 chuyển động không có tên, đáp án bị ẩn (mục 7) |
 | `build\imu-sim\Release\imu-sim-headless.exe` | Chạy mọi scenario, không mở cửa sổ, in bảng số |
 | `build\imu-sim\Release\imu-sim-headless.exe --list` | Liệt kê các scenario |
 
@@ -80,7 +81,7 @@ Hai hướng này luôn vuông góc với nhau.
 | Phím 1–6 | Chạy scenario số 1–6 |
 | R | Đặt lại: remote thẳng, con trỏ về giữa |
 | Space hoặc Enter | Nút OK: chọn ô dưới con trỏ |
-| A | Ẩn/hiện trục xoay và số gyro (dùng cho bài "tự chỉ trục") |
+| A | Ẩn/hiện trục xoay, hướng chuyển động, góc thật, số gyro và accel (dùng cho bài "tự chỉ trục") |
 | G | Ẩn/hiện con trỏ đúng (vòng vàng) |
 | P | Tạm dừng |
 | N / B / T | Đổi knob: noise / gyroBias / handTremor (mỗi lần bấm chuyển sang mức tiếp theo) |
@@ -139,6 +140,9 @@ Số 40 px/° là gain (hệ số khuếch đại), đổi bằng `--gain`. Roll
 | 5 | `figure` | 20 s | Kết hợp cả 3 trục |
 | 6 | `wild` | 10 s | Vung tay mạnh, góc rất lớn (để thử screen bound) |
 
+**Chế độ bí ẩn** (`--mystery`): phím 1–3 chạy `bi-an-1`, `bi-an-2`, `bi-an-3`. Mỗi chuyển động chỉ xoay quanh **một** trục,
+mỗi lần 8 s. Lúc đầu mọi đáp án bị ẩn, kể cả vòng vàng. Nhấn A để hiện đáp án, nhấn G để hiện con trỏ đúng.
+
 ## 8. Knob (núm chỉnh) và tuỳ chọn dòng lệnh
 
 Ngày đầu mọi knob tắt (bằng 0). Bài học sẽ bật dần từng knob.
@@ -186,5 +190,7 @@ Ngày đầu mọi knob tắt (bằng 0). Bài học sẽ bật dần từng kno
 
 ## Changes
 
+- 2026-10-22: chế độ `--mystery` (3 chuyển động một trục, đáp án ẩn) cho bài 01. Phím A ẩn thêm góc thật và accel.
+  Self-test thêm 4 kiểm tra (22/22).
 - 2026-10-21: bản đầu tiên. Remote 3D + trục + trục xoay + hướng chuyển động, TV ảo + menu, 6 scenario,
   headless mode, knob noise/gyroBias/handTremor, self-test vật lý (18 kiểm tra).

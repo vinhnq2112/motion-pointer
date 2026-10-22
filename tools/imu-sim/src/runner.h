@@ -12,6 +12,7 @@ struct Options {
     std::string csvPath;
     std::string screenshotPath; // GUI only
     double shotAt = 3.0;        // GUI only: simulated seconds before the screenshot
+    bool mystery = false;       // GUI only: keys 1–3 play mysteryScenarios(), answers hidden
     bool list = false;
     bool help = false;
 };

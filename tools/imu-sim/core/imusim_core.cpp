@@ -159,9 +159,28 @@ const std::vector<Scenario>& scenarios()
     return list;
 }
 
+const std::vector<Scenario>& mysteryScenarios()
+{
+    // Order and first direction are mixed on purpose: roll (left first), yaw (right first), pitch (up first).
+    static const std::vector<Scenario> list = {
+        {"bi-an-1", "Chuyển động bí ẩn 1: trục nào?",
+         {{0, {0, 0, 0}}, {1, {0, 0, 0}}, {2.5, {0, 0, -40}}, {3.5, {0, 0, -40}},
+          {5.5, {0, 0, 40}}, {6.5, {0, 0, 40}}, {8, {0, 0, 0}}}},
+        {"bi-an-2", "Chuyển động bí ẩn 2: trục nào?",
+         {{0, {0, 0, 0}}, {1, {0, 0, 0}}, {2.5, {-25, 0, 0}}, {3.5, {-25, 0, 0}},
+          {5.5, {25, 0, 0}}, {6.5, {25, 0, 0}}, {8, {0, 0, 0}}}},
+        {"bi-an-3", "Chuyển động bí ẩn 3: trục nào?",
+         {{0, {0, 0, 0}}, {1, {0, 0, 0}}, {2.5, {0, -20, 0}}, {3.5, {0, -20, 0}},
+          {5.5, {0, 20, 0}}, {6.5, {0, 20, 0}}, {8, {0, 0, 0}}}},
+    };
+    return list;
+}
+
 const Scenario* findScenario(const std::string& name)
 {
     for (const Scenario& s : scenarios())
+        if (s.name == name) return &s;
+    for (const Scenario& s : mysteryScenarios())
         if (s.name == name) return &s;
     return nullptr;
 }

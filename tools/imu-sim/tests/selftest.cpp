@@ -117,6 +117,16 @@ int main()
     near("pitch +5 (nose down): y = 540 + 40*5", truePointer({0, 5, 0}, k).y, 740, 1e-9);
     near("yaw -90: x clamped to right edge 1919", truePointer({-90, 0, 0}, k).x, 1919, 1e-9);
 
+    std::printf("\nMystery scenarios (one axis each: roll, yaw, pitch)\n");
+    const auto& mys = mysteryScenarios();
+    check(mys.size() == 3, "3 mystery scenarios", (double)mys.size(), 3);
+    if (mys.size() == 3) {
+        const Euler m1 = mys[0].angles(2.5), m2 = mys[1].angles(2.5), m3 = mys[2].angles(2.5);
+        check(m1.roll != 0 && m1.yaw == 0 && m1.pitch == 0, "bi-an-1 moves only roll", m1.roll, -40);
+        check(m2.yaw != 0 && m2.pitch == 0 && m2.roll == 0, "bi-an-2 moves only yaw", m2.yaw, -25);
+        check(m3.pitch != 0 && m3.yaw == 0 && m3.roll == 0, "bi-an-3 moves only pitch", m3.pitch, -20);
+    }
+
     std::printf("\n%s: %d failure(s)\n", failures ? "FAILED" : "PASSED", failures);
     return failures ? 1 : 0;
 }

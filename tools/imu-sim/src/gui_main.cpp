@@ -185,15 +185,16 @@ int main(int argc, char** argv)
     imusim::Knobs knobs = opt.knobs;
     Session session(knobs);
     Euler manual, target;
+    // --mystery: keys 1–3 play motions with neutral names, and the answers start hidden (A shows them).
+    const auto& scList = opt.mystery ? imusim::mysteryScenarios() : imusim::scenarios();
     int scenarioIdx = -1;
     double scenarioT = 0;
     if (opt.scenario != "all") {
-        const auto& list = imusim::scenarios();
-        for (size_t i = 0; i < list.size(); ++i)
-            if (list[i].name == opt.scenario) scenarioIdx = (int)i;
+        for (size_t i = 0; i < scList.size(); ++i)
+            if (scList[i].name == opt.scenario) scenarioIdx = (int)i;
     }
 
-    bool paused = false, showAxis = true, showTruth = true;
+    bool paused = false, showAxis = !opt.mystery, showTruth = !opt.mystery;
     double acc = 0;
     V3 spinAxisWorld{};
     double spinRate = 0, spinHold = 0;
@@ -249,7 +250,7 @@ int main(int argc, char** argv)
             target.pitch = std::clamp(target.pitch, -80.0, 80.0);
             target.roll = std::clamp(target.roll, -170.0, 170.0);
 
-            for (int i = 0; i < (int)imusim::scenarios().size() && i < 9; ++i)
+            for (int i = 0; i < (int)scList.size() && i < 9; ++i)
                 if (IsKeyPressed(KEY_ONE + i)) startScenario(i);
             if (IsKeyPressed(KEY_R)) {
                 scenarioIdx = -1;
@@ -281,7 +282,7 @@ int main(int argc, char** argv)
             while (acc >= dt) {
                 acc -= dt;
                 if (scenarioIdx >= 0) {
-                    const imusim::Scenario& sc = imusim::scenarios()[scenarioIdx];
+                    const imusim::Scenario& sc = scList[scenarioIdx];
                     const double tMid = scenarioT + dt / 2, tEnd = scenarioT + dt;
                     session.step(sc.angles(tMid), sc.rates(tMid), sc.angles(tEnd));
                     scenarioT = tEnd;
@@ -420,8 +421,11 @@ int main(int argc, char** argv)
         float y = 410;
         const float x = 660;
         text(gSmall, "Góc thật (ground truth), °", x, y, kDim);
-        text(gBig, fmt("yaw %+7.1f   pitch %+7.1f   roll %+7.1f", session.actual.yaw, session.actual.pitch,
+        if (showAxis)
+            text(gBig, fmt("yaw %+7.1f   pitch %+7.1f   roll %+7.1f", session.actual.yaw, session.actual.pitch,
                        session.actual.roll), x, y + 18, kText);
+        else
+            text(gBig, "yaw, pitch, roll   (đang ẩn)", x, y + 18, kText);
         y += 48;
         text(gSmall, "Dữ liệu IMU gửi cho code của bạn", x, y, kDim);
         if (showAxis)
@@ -429,13 +433,20 @@ int main(int argc, char** argv)
                            session.sample.gyro.z), x, y + 18, kText);
         else
             text(gBig, "gyro  °/s     (đang ẩn)", x, y + 18, kText);
-        text(gBig, fmt("accel m/s²  x %+7.2f  y %+7.2f  z %+7.2f", session.sample.accel.x, session.sample.accel.y,
+        if (showAxis)
+            text(gBig, fmt("accel m/s²  x %+7.2f  y %+7.2f  z %+7.2f", session.sample.accel.x, session.sample.accel.y,
                        session.sample.accel.z), x, y + 42, kText);
+        else
+            text(gBig, "accel m/s²   (đang ẩn)", x, y + 42, kText);
         y += 74;
         const double err = std::hypot(session.pointer.x - session.truth.x, session.pointer.y - session.truth.y);
-        text(gSmall, TextFormat("Con trỏ của bạn (trắng) %5.0f, %5.0f   ·   đúng (vòng vàng) %5.0f, %5.0f   ·   sai số %.0f px",
+        if (showTruth)
+            text(gSmall, TextFormat("Con trỏ của bạn (trắng) %5.0f, %5.0f   ·   đúng (vòng vàng) %5.0f, %5.0f   ·   sai số %.0f px",
                                 session.pointer.x, session.pointer.y, session.truth.x, session.truth.y, err),
              x, y, kText);
+        else
+            text(gSmall, TextFormat("Con trỏ của bạn (trắng) %5.0f, %5.0f   ·   con trỏ đúng: đang ẩn (G để hiện)",
+                                    session.pointer.x, session.pointer.y), x, y, kText);
         y += 22;
         text(gSmall, TextFormat("Plugin: %s", pluginName()), x, y, kDim);
         if (selectedTimer > 0)
@@ -448,7 +459,7 @@ int main(int argc, char** argv)
         std::string mode;
         if (paused) mode = "TẠM DỪNG (P)";
         else if (scenarioIdx >= 0) {
-            const auto& sc = imusim::scenarios()[scenarioIdx];
+            const auto& sc = scList[scenarioIdx];
             mode = TextFormat("Scenario %d: %s  %.1f / %.0f s — %s", scenarioIdx + 1, sc.name.c_str(), scenarioT,
                               sc.duration(), sc.description.c_str());
         } else mode = "Điều khiển bằng tay (chuột / phím)";
@@ -458,8 +469,8 @@ int main(int argc, char** argv)
                      "Phím ← → = yaw, ↑ ↓ = pitch, Q / E = roll", 12, hy, kText);
         hy += 22;
         std::string sc = "Scenario:";
-        for (size_t i = 0; i < imusim::scenarios().size(); ++i)
-            sc += TextFormat("  %d %s", (int)i + 1, imusim::scenarios()[i].name.c_str());
+        for (size_t i = 0; i < scList.size(); ++i)
+            sc += TextFormat("  %d %s", (int)i + 1, scList[i].name.c_str());
         text(gSmall, sc, 12, hy, kText);
         hy += 22;
         text(gSmall, "R đặt lại  ·  Space / Enter = nút OK (chọn ô)  ·  A ẩn/hiện trục xoay  ·  "

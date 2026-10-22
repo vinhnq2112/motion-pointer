@@ -3,8 +3,8 @@
 - **Started:** 2026-10-21
 - **Course mode:** sprint
 - **Current phase:** Day 1 — Trục xoay: yaw, pitch, roll
-- **Current topic:** Day 1 chưa bắt đầu (khởi động `&` đã làm: 4/5)
-- **Next step:** T5 22/10: `/lesson` Ngày 1 (trục xoay)
+- **Current topic:** Day 1 — lesson trục xoay xong (explain-back 3 → 4 sau khi thử lại); còn `/exercise`
+- **Next step:** `/exercise` Day 1: sửa lỗi `&` + chỉ trục cho 3 chuyển động (phím A ẩn đáp án)
 - **Week of:** 2026-10-19
 - **Hours this week:** 0 / 8 (cả khoá, sprint) · Day 0: 0.5 h, không tính vào 8 h
 
@@ -42,6 +42,7 @@ _(nothing yet — format: `NN-<exercise> (S2) — passed`)_
 Starter-material level per topic (`/exercise` → "Scaffold levels"). New topics start at S3.
 | Topic | Level | Last exercise | Last change |
 |---|---|---|---|
+| rotation: trục xoay + dấu | S3 | 01-axes-and-reference — đang làm | bắt đầu 2026-10-22 |
 
 ## Milestone status
 | Phase | Status | Exit criteria met |

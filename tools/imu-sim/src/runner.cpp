@@ -25,6 +25,7 @@ const char* optionsHelp()
            "  --csv PATH        write every sample to a CSV file (headless)\n"
            "  --screenshot PATH save a PNG and quit (window app)\n"
            "  --at SECONDS      simulated time of the screenshot (default 3)\n"
+           "  --mystery         window app: keys 1-3 play mystery motions, answers hidden (A shows them)\n"
            "  --list            list scenarios\n";
 }
 
@@ -40,6 +41,7 @@ bool parseOptions(int argc, char** argv, Options& o, std::string& error)
         const char* v = nullptr;
         if (a == "--help" || a == "-h") o.help = true;
         else if (a == "--list") o.list = true;
+        else if (a == "--mystery") o.mystery = true;
         else if (a == "--scenario") { if (!next(v)) return false; o.scenario = v; }
         else if (a == "--noise") { if (!next(v)) return false; o.knobs.noise = std::atof(v); }
         else if (a == "--bias") { if (!next(v)) return false; o.knobs.gyroBias = std::atof(v); }

@@ -24,3 +24,7 @@ One row per technical term, added the first time the term is used (`CLAUDE.md` w
 | headless mode | chạy không cửa sổ | Chạy simulator không mở cửa sổ, chỉ in số. Dùng cho tests. | `imu-sim-headless.exe --scenario still` | 2026-10-21 |
 | sample | mẫu dữ liệu | Một lần đọc cảm biến: dt, gyro, accel. | 100 sample mỗi giây → dt = 0.01 s | 2026-10-21 |
 | gain | hệ số khuếch đại | Số pixel con trỏ đi được cho mỗi độ xoay. | gain 40 px/°: yaw 10° → con trỏ đi 400 px | 2026-10-21 |
+| pitch | ngẩng/chúc | Xoay quanh trục y của remote (trục sang trái). | Mũi remote chúc xuống → con trỏ đi xuống; pitch > 0. | 2026-10-22 |
+| roll | vặn cổ tay | Xoay quanh trục x của remote (trục dọc thân, hướng về TV). | Vặn cổ tay → mũi đứng yên, con trỏ không đi. | 2026-10-22 |
+| direction of motion | hướng chuyển động | Hướng mà một điểm trên remote đang đi tới; luôn vuông góc với trục xoay. | yaw: trục dọc (z), mũi đi ngang. | 2026-10-22 |
+| right-hand rule | quy tắc bàn tay phải | Cách tìm chiều quay dương: ngón cái theo trục, bốn ngón cong theo chiều dương. | Ngón cái lên (+z) → yaw dương = mũi sang trái. | 2026-10-22 |
