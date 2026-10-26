@@ -8,7 +8,7 @@
 // TODO 2: Tests của cả 3 hàm turnLeft, tiltDown, twistRight đều fail, kể cả hàm viết đúng.
 //         Hãy xem tham số `angle` của hàm addTo: hàm sửa biến gốc hay sửa một bản sao?
 //         Đọc lại ghi chú: learning/knowledge/cpp/pass-by-value-vs-reference.md. Sửa lỗi, rồi chạy lại tests.
-static void addTo(float angle, float deg)
+static void addTo(float& angle, float deg)
 {
     angle += deg;
 }
@@ -17,7 +17,7 @@ static void addTo(float angle, float deg)
 //         mũi sang trái thì yaw dương hay âm? So với code bên dưới, rồi sửa.
 void turnLeft(Angles& a, float deg)
 {
-    addTo(a.yaw, -deg);
+    addTo(a.yaw, +deg);
 }
 
 // Hàm này đúng. Đừng sửa. Dùng nó làm mẫu.
@@ -30,7 +30,7 @@ void tiltDown(Angles& a, float deg)
 //         So với code bên dưới, rồi sửa.
 void twistRight(Angles& a, float deg)
 {
-    addTo(a.yaw, deg);
+    addTo(a.roll, +deg);
 }
 
 // TODO 5: Viết hàm lookUp: mũi remote ngẩng LÊN deg độ.
@@ -42,10 +42,25 @@ void twistRight(Angles& a, float deg)
 //               Viết lựa chọn của bạn và lý do (1 câu) vào README.md, mục "Câu trả lời của bạn".
 void lookUp(Angles& a, float deg)
 {
+    addTo(a.pitch, -deg);
 }
 
 // STRETCH (TODO 6): Xoay deg độ theo chiều DƯƠNG quanh trục axis ('x', 'y' hoặc 'z').
 //   Kết quả cần có: mỗi trục đổi đúng một góc; ký tự khác thì không đổi góc nào.
 void rotateAbout(Angles& a, char axis, float deg)
 {
+    switch (axis) {
+        case 'x':
+            twistRight(a, deg);
+            break;
+        case 'y':
+            tiltDown(a, deg);
+            break;
+        case 'z':
+            turnLeft(a, deg);
+            break;
+        default:
+            // Không làm gì cả nếu axis không hợp lệ
+            break;
+    }
 }

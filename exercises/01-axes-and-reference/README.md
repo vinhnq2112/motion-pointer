@@ -47,15 +47,16 @@ Bạn tự chỉ trục cho 3 chuyển động mà không có đáp án.
 
 ### Phần A — YOU DECIDE (TODO 5)
 - `lookUp` gọi: _(addTo trực tiếp / hàm có sẵn nào?)_
-- Lý do (1 câu): _…_
+- Lý do (1 câu): I call addTo, I want 2 fucntions titlDown() and lookUp() are independent.
+- lookUp() can call titlDown() with purpose: quy tắc dấu nằm ở một nơi
 
 ### Phần B — bảng trục (điền TRƯỚC khi nhấn A)
 
 | Bí ẩn | Trục xoay (x / y / z + màu) | Tên (yaw / pitch / roll) | Mũi remote đi thế nào | Con trỏ trên TV đi thế nào | Sau khi nhấn A: đúng? |
 |---|---|---|---|---|---|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
+| 1 |x + red |roll | đứng yên | đứng yên | yes|
+| 2 | z + blue | yaw | left, right | left, right | yes|
+| 3 | y + green| pitch | up, down | up, down| yes| 
 
 ---
 

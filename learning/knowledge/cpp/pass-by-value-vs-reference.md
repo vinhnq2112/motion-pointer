@@ -19,3 +19,12 @@ void addOne(Vec3& v) { v.x += 1; }  // pass by reference: v là chính a, a.x th
 
 **Vì sao quan trọng cho bản demo:** `onImuSample(const ImuSample& s, PointerState& p)` nhận `p` bằng `&`.
 Nếu bỏ `&`, code sửa bản sao của con trỏ → con trỏ trên TV ảo không bao giờ di chuyển.
+
+## Pitfall — 2026-10-27 (exercise 01, TODO 2)
+**Hiểu sai đã gặp:** ý đúng ("addTo chỉ sửa bản sao"), nhưng gọi sai tên: nói "truyền tham chiếu".
+
+**Đúng là:**
+- `float angle` (không có `&`) = **pass by value** (truyền bản sao). Biến gốc không đổi.
+- `float& angle` (có `&`) = **pass by reference** (truyền tham chiếu). Hàm sửa chính biến gốc.
+
+Mẹo nhớ: **có `&` = tham chiếu**. Không có `&` = bản sao.
