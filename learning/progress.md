@@ -3,7 +3,7 @@
 - **Started:** 2026-10-21
 - **Course mode:** sprint
 - **Current phase:** Day 2 — Gyro: tốc độ xoay → góc
-- **Current topic:** Day 1 xong 2026-10-27 (exercise 01 pass, cả stretch). Tiếp: Day 2
+- **Current topic:** Day 2 — lesson gyro → góc xong 2026-10-28 (explain-back 4). Tiếp: exercise 02 cộng dồn yaw/pitch
 - **Next step:** T4 28/10: `/quiz` trục xoay → `/lesson` gyro, `angle += rate * dt`
 - **Week of:** 2026-10-19
 - **Hours this week:** 1 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính

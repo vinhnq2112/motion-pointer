@@ -21,6 +21,10 @@ bool parseOptions(int argc, char** argv, Options& out, std::string& error);
 const char* optionsHelp();
 const char* pluginName();
 
+// Angles the learner's code passed to reportAngles(). valid = false until the first call in this Session.
+struct ReportedAngles { bool valid = false; float yaw = 0, pitch = 0, roll = 0; };
+const ReportedAngles& reportedAngles();
+
 class Session {
 public:
     explicit Session(const imusim::Knobs& k);

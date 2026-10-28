@@ -16,13 +16,15 @@ if(NOT EXISTS "${IMUSIM_PLUGIN_ABS}")
   message(FATAL_ERROR "IMUSIM_PLUGIN file not found: ${IMUSIM_PLUGIN_ABS}")
 endif()
 get_filename_component(IMUSIM_PLUGIN_NAME "${IMUSIM_PLUGIN_ABS}" NAME)
+# The plug-in's own folder is on the include path, so an exercise file can #include "student.h".
+get_filename_component(IMUSIM_PLUGIN_DIR "${IMUSIM_PLUGIN_ABS}" DIRECTORY)
 message(STATUS "imu-sim plug-in: ${IMUSIM_PLUGIN_ABS}")
 
 add_subdirectory(core)
 
 # Headless runner: scenarios → numbers (and CSV). No graphics.
 add_executable(imu-sim-headless src/headless_main.cpp src/runner.cpp "${IMUSIM_PLUGIN_ABS}")
-target_include_directories(imu-sim-headless PRIVATE include src)
+target_include_directories(imu-sim-headless PRIVATE include src "${IMUSIM_PLUGIN_DIR}")
 target_link_libraries(imu-sim-headless PRIVATE imusim_core)
 target_compile_definitions(imu-sim-headless PRIVATE IMUSIM_PLUGIN_NAME="${IMUSIM_PLUGIN_NAME}")
 
@@ -45,7 +47,7 @@ if(IMUSIM_GUI)
   FetchContent_MakeAvailable(raylib)
 
   add_executable(imu-sim src/gui_main.cpp src/runner.cpp "${IMUSIM_PLUGIN_ABS}")
-  target_include_directories(imu-sim PRIVATE include src)
+  target_include_directories(imu-sim PRIVATE include src "${IMUSIM_PLUGIN_DIR}")
   target_link_libraries(imu-sim PRIVATE imusim_core raylib)
   target_compile_definitions(imu-sim PRIVATE IMUSIM_PLUGIN_NAME="${IMUSIM_PLUGIN_NAME}")
 endif()

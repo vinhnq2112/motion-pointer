@@ -11,6 +11,13 @@ using imusim::Euler;
 
 const char* pluginName() { return IMUSIM_PLUGIN_NAME; }
 
+namespace {
+ReportedAngles gReported;
+}
+
+void reportAngles(float yaw, float pitch, float roll) { gReported = {true, yaw, pitch, roll}; }
+const ReportedAngles& reportedAngles() { return gReported; }
+
 const char* optionsHelp()
 {
     return "Options:\n"
@@ -73,6 +80,7 @@ bool parseOptions(int argc, char** argv, Options& o, std::string& error)
 
 Session::Session(const imusim::Knobs& k) : knobs_(k), sensor_(k.seed)
 {
+    gReported = {};
     pointer = {k.screenW / 2.0f, k.screenH / 2.0f};
     truth = imusim::truePointer(intended, knobs_);
     sample.accel = {0, 0, (float)imusim::kGravity};

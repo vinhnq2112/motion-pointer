@@ -58,6 +58,16 @@ Hai thứ khác nhau cần nhớ:
 
 Hai hướng này luôn vuông góc với nhau.
 
+**Góc dưới bên trái: biểu đồ góc** (phím C bật/tắt)
+
+| Thứ bạn thấy | Ý nghĩa |
+|---|---|
+| Dải mờ xanh dương / xanh lá | yaw / pitch **thật** trong 10 giây gần nhất |
+| Nét mảnh xanh dương / xanh lá | yaw / pitch do **code của bạn** tính, gửi qua `reportAngles()` (mục 5) |
+| "sai số bây giờ" | Khoảng cách giữa nét mảnh và dải mờ, đơn vị ° |
+
+Code đúng thì nét mảnh nằm giữa dải mờ. Nếu code chưa gọi `reportAngles()`, biểu đồ chỉ có dải mờ.
+
 **Bên phải: TV ảo**
 
 | Thứ bạn thấy | Ý nghĩa |
@@ -83,6 +93,7 @@ Hai hướng này luôn vuông góc với nhau.
 | Space hoặc Enter | Nút OK: chọn ô dưới con trỏ |
 | A | Ẩn/hiện trục xoay, hướng chuyển động, góc thật, số gyro và accel (dùng cho bài "tự chỉ trục") |
 | G | Ẩn/hiện con trỏ đúng (vòng vàng) |
+| C | Ẩn/hiện biểu đồ góc |
 | P | Tạm dừng |
 | N / B / T | Đổi knob: noise / gyroBias / handTremor (mỗi lần bấm chuyển sang mức tiếp theo) |
 
@@ -102,6 +113,17 @@ void onImuSample(const ImuSample& s, PointerState& p); // gọi 100 lần/giây
 - Simulator gọi `onImuSample` một lần cho mỗi mẫu (sample) dữ liệu.
 - Lúc bắt đầu, `p` nằm ở giữa màn hình: (960, 540).
 - Code của bạn sửa `p`. Vì `p` được truyền bằng `&` (pass by reference), simulator thấy thay đổi.
+
+**Không bắt buộc: cho simulator xem góc của bạn.** Simulator có sẵn hàm này (bạn chỉ gọi, không viết):
+
+```cpp
+void reportAngles(float yaw, float pitch, float roll); // góc code của bạn tính, đơn vị °
+```
+
+Gọi hàm này trong `onImuSample`, sau khi tính góc. Cửa sổ vẽ góc của bạn lên biểu đồ (mục 3). Headless mode in
+sai số góc ở cột `angle err` (mục 9). Nếu bạn chưa tính roll, truyền `0`.
+
+File `.cpp` của bạn có thể `#include` file `.h` nằm cùng thư mục (ví dụ `student.h` của bài tập).
 
 Chọn file của bạn khi build (đường dẫn tính từ `tools/imu-sim/`):
 
@@ -171,6 +193,7 @@ Ngày đầu mọi knob tắt (bằng 0). Bài học sẽ bật dần từng kno
 | `err end` / `err max` | Sai số con trỏ lúc cuối / lớn nhất trong cả scenario (px) |
 | `off-screen` | Số mẫu mà con trỏ của bạn nằm ngoài màn hình. Phải bằng 0. |
 | `moved from start` | Con trỏ của bạn đi xa điểm bắt đầu nhất bao nhiêu (px). Dùng cho `still`: đo drift. |
+| `angle err` | Sai số góc lúc cuối / lớn nhất (°): lấy số lớn hơn giữa sai số yaw và sai số pitch. Dấu `-` nghĩa là code chưa gọi `reportAngles()`. |
 
 ## 10. Giới hạn (đơn giản hoá có chủ ý)
 
@@ -186,9 +209,13 @@ Ngày đầu mọi knob tắt (bằng 0). Bài học sẽ bật dần từng kno
 - `tests/selftest.cpp`: test vật lý (trọng lực, quy ước dấu, tích phân gyro, bias, nhiễu, con trỏ đúng).
 - Dữ liệu gyro tính tại giữa mỗi mẫu, góc thật tính tại cuối mẫu. Vì vậy `angle += gyro * dt` cho sai số
   < 0.01° khi không có nhiễu.
-- Đã hoãn tới Ngày 2: biểu đồ "góc thật vs góc learner tính" (cần thêm hàm nhỏ trong interface của bài tập).
+- `reportAngles()` lưu góc vào `runner.cpp` (`reportedAngles()`); mỗi `Session` mới đặt lại `valid = false`.
+  Tests của bài tập link thêm `src/runner.cpp` để chạy `onImuSample` qua `Session`.
 
 ## Changes
+
+- 2026-10-28: `reportAngles(yaw, pitch, roll)` trong interface (không bắt buộc). Cửa sổ: biểu đồ góc thật vs góc
+  learner, 10 s (phím C). Headless: cột `angle err`. Thư mục của plug-in được thêm vào include path.
 
 - 2026-10-22: chế độ `--mystery` (3 chuyển động một trục, đáp án ẩn) cho bài 01. Phím A ẩn thêm góc thật và accel.
   Self-test thêm 4 kiểm tra (22/22).

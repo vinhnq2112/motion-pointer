@@ -10,6 +10,8 @@ namespace {
 
 struct Result {
     double errEnd = 0, errMax = 0, stillMove = 0;
+    bool angles = false;                 // learner called reportAngles()
+    double angErrEnd = 0, angErrMax = 0; // max(|yaw error|, |pitch error|), deg
     int offScreen = 0, samples = 0;
     imusim::Euler endAngles;
     PointerState endPointer{};
@@ -28,6 +30,12 @@ Result run(const imusim::Scenario& sc, const imusim::Knobs& k, std::FILE* csv)
         const double tMid = tEnd - dt / 2.0;
         s.step(sc.angles(tMid), sc.rates(tMid), sc.angles(tEnd));
 
+        const ReportedAngles& ra = reportedAngles();
+        if (ra.valid) {
+            r.angles = true;
+            r.angErrEnd = std::max(std::fabs(ra.yaw - s.actual.yaw), std::fabs(ra.pitch - s.actual.pitch));
+            r.angErrMax = std::max(r.angErrMax, r.angErrEnd);
+        }
         const double err = std::hypot(s.pointer.x - s.truth.x, s.pointer.y - s.truth.y);
         r.errMax = std::max(r.errMax, err);
         r.stillMove = std::max(r.stillMove, (double)std::hypot(s.pointer.x - start.x, s.pointer.y - start.y));
@@ -82,10 +90,11 @@ int main(int argc, char** argv)
     std::printf("imu-sim headless | plugin: %s | noise %.2f deg/s | gyroBias %.2f deg/s | %.0f Hz | "
                 "tremor %.2f deg | screen %dx%d\n\n",
                 pluginName(), k.noise, k.gyroBias, k.sampleRate, k.handTremor, k.screenW, k.screenH);
-    std::printf("%-12s %6s  %-26s %-14s %-14s %9s %9s %10s %11s\n", "scenario", "time", "true yaw/pitch/roll (end)",
-                "pointer (end)", "truth (end)", "err end", "err max", "off-screen", "moved from");
-    std::printf("%-12s %6s  %-26s %-14s %-14s %9s %9s %10s %11s\n", "", "s", "deg", "px", "px", "px", "px",
-                "samples", "start, px");
+    std::printf("%-12s %6s  %-26s %-14s %-14s %9s %9s %10s %11s %15s\n", "scenario", "time",
+                "true yaw/pitch/roll (end)", "pointer (end)", "truth (end)", "err end", "err max", "off-screen",
+                "moved from", "angle err");
+    std::printf("%-12s %6s  %-26s %-14s %-14s %9s %9s %10s %11s %15s\n", "", "s", "deg", "px", "px", "px", "px",
+                "samples", "start, px", "end / max, deg");
 
     std::vector<const imusim::Scenario*> list;
     if (o.scenario == "all")
@@ -100,9 +109,12 @@ int main(int argc, char** argv)
                       r.endAngles.roll);
         std::snprintf(ptr, sizeof ptr, "%6.0f,%6.0f", r.endPointer.x, r.endPointer.y);
         std::snprintf(tru, sizeof tru, "%6.0f,%6.0f", r.endTruth.x, r.endTruth.y);
-        std::printf("%-12s %6.1f  %-26s %-14s %-14s %9.1f %9.1f %10d %11.1f\n", sc->name.c_str(), sc->duration(),
-                    angles, ptr, tru, r.errEnd, r.errMax, r.offScreen, r.stillMove);
+        char angErr[32] = "-";
+        if (r.angles) std::snprintf(angErr, sizeof angErr, "%.2f / %.2f", r.angErrEnd, r.angErrMax);
+        std::printf("%-12s %6.1f  %-26s %-14s %-14s %9.1f %9.1f %10d %11.1f %15s\n", sc->name.c_str(),
+                    sc->duration(), angles, ptr, tru, r.errEnd, r.errMax, r.offScreen, r.stillMove, angErr);
     }
+    std::printf("\nangle err: yaw/pitch from reportAngles() vs the true angles. \"-\" = reportAngles() not called.\n");
     if (csv) {
         std::fclose(csv);
         std::printf("\nCSV written: %s\n", o.csvPath.c_str());

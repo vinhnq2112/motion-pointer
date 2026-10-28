@@ -9,3 +9,7 @@ struct PointerState { float x, y; };                   // px on the virtual TV, 
 
 // Called once per sample (100 times per second by default). Your code updates p.
 void onImuSample(const ImuSample& s, PointerState& p);
+
+// Optional, written by the simulator: call it from onImuSample to show the angles YOUR code computed (°).
+// The window app draws them next to the true angles (key C), headless mode prints the angle error.
+void reportAngles(float yaw, float pitch, float roll);

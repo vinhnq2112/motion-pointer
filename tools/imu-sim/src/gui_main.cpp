@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <deque>
 #include <string>
 #include <vector>
 
@@ -151,6 +152,55 @@ std::vector<Tile> menuTiles(const imusim::Knobs& k)
 
 std::string fmt(const char* f, double a, double b, double c) { return TextFormat(f, a, b, c); }
 
+// Angle chart (key C): true yaw/pitch vs the angles the learner passed to reportAngles(), last 10 s.
+struct ChartPoint { double t; float trueYaw, truePitch, yaw, pitch; bool valid; };
+const double kChartSpan = 10.0;
+const Rectangle kChart = {10, 360, 620, 150};
+
+void drawChart(const std::deque<ChartPoint>& h, double now, bool showTrue)
+{
+    DrawRectangleRec(kChart, {16, 17, 22, 225});
+    DrawRectangleLinesEx(kChart, 1, {60, 64, 76, 255});
+    float range = 10;
+    for (const ChartPoint& p : h) {
+        if (showTrue) range = std::max({range, std::fabs(p.trueYaw), std::fabs(p.truePitch)});
+        if (p.valid) range = std::max({range, std::fabs(p.yaw), std::fabs(p.pitch)});
+    }
+    range = std::min(std::ceil(range / 10) * 10, 360.0f);
+    const float top = kChart.y + 24, bottom = kChart.y + kChart.height - 8;
+    const float midY = (top + bottom) / 2, halfH = (bottom - top) / 2;
+    const float left = kChart.x + 44, right = kChart.x + kChart.width - 8;
+    auto px = [&](double t) { return (float)(right - (now - t) / kChartSpan * (right - left)); };
+    auto py = [&](float deg) { return midY - std::clamp(deg / range, -1.0f, 1.0f) * halfH; };
+    DrawLineEx({left, midY}, {right, midY}, 1, {60, 64, 76, 255});
+    text(gSmall, TextFormat("%+.0f°", range), kChart.x + 4, top - 8, kDim);
+    text(gSmall, "0°", kChart.x + 4, midY - 9, kDim);
+    text(gSmall, TextFormat("%+.0f°", -range), kChart.x + 4, bottom - 12, kDim);
+
+    auto line = [&](auto value, Color c, float width, bool needValid) {
+        for (size_t i = 1; i < h.size(); ++i) {
+            if (needValid && !(h[i - 1].valid && h[i].valid)) continue;
+            DrawLineEx({px(h[i - 1].t), py(value(h[i - 1]))}, {px(h[i].t), py(value(h[i]))}, width, c);
+        }
+    };
+    const Color yawTrue = {kAxisZ.r, kAxisZ.g, kAxisZ.b, 90}, pitchTrue = {kAxisY.r, kAxisY.g, kAxisY.b, 90};
+    if (showTrue) {
+        line([](const ChartPoint& p) { return p.trueYaw; }, yawTrue, 7, false);
+        line([](const ChartPoint& p) { return p.truePitch; }, pitchTrue, 7, false);
+    }
+    line([](const ChartPoint& p) { return p.yaw; }, kAxisZ, 2, true);
+    line([](const ChartPoint& p) { return p.pitch; }, kAxisY, 2, true);
+
+    text(gSmall, "Góc, 10 s (C) · xanh dương yaw · xanh lá pitch · dải mờ = thật · nét mảnh = code bạn",
+         kChart.x + 6, kChart.y + 3, kText);
+    if (h.empty() || !h.back().valid)
+        text(gSmall, "Code của bạn chưa gọi reportAngles(yaw, pitch, roll)", left + 8, bottom - 22, kDim);
+    else if (showTrue)
+        text(gSmall, TextFormat("sai số bây giờ: yaw %.2f°  pitch %.2f°", std::fabs(h.back().yaw - h.back().trueYaw),
+                                std::fabs(h.back().pitch - h.back().truePitch)),
+             left + 8, bottom - 22, kText);
+}
+
 } // namespace
 
 int main(int argc, char** argv)
@@ -194,7 +244,8 @@ int main(int argc, char** argv)
             if (scList[i].name == opt.scenario) scenarioIdx = (int)i;
     }
 
-    bool paused = false, showAxis = !opt.mystery, showTruth = !opt.mystery;
+    bool paused = false, showAxis = !opt.mystery, showTruth = !opt.mystery, showChart = !opt.mystery;
+    std::deque<ChartPoint> chart;
     double acc = 0;
     V3 spinAxisWorld{};
     double spinRate = 0, spinHold = 0;
@@ -218,6 +269,7 @@ int main(int argc, char** argv)
     auto startScenario = [&](int i) {
         manual = target = Euler{};
         session = Session(knobs);
+        chart.clear();
         scenarioIdx = i;
         scenarioT = 0;
     };
@@ -256,7 +308,9 @@ int main(int argc, char** argv)
                 scenarioIdx = -1;
                 manual = target = Euler{};
                 session = Session(knobs);
+                chart.clear();
             }
+            if (IsKeyPressed(KEY_C)) showChart = !showChart;
             if (IsKeyPressed(KEY_N)) { knobs.noise = cycle(knobs.noise, noiseSteps, 4); session.setKnobs(knobs); }
             if (IsKeyPressed(KEY_B)) { knobs.gyroBias = cycle(knobs.gyroBias, biasSteps, 4); session.setKnobs(knobs); }
             if (IsKeyPressed(KEY_T)) {
@@ -298,6 +352,10 @@ int main(int argc, char** argv)
                     session.step(manual + rate * (dt / 2), rate, manual + rate * dt);
                     manual = manual + rate * dt;
                 }
+                const ReportedAngles& ra = reportedAngles();
+                chart.push_back({session.time, (float)session.actual.yaw, (float)session.actual.pitch, ra.yaw,
+                                 ra.pitch, ra.valid});
+                while (!chart.empty() && chart.front().t < session.time - kChartSpan) chart.pop_front();
             }
         }
         selectedTimer = std::max(0.0, selectedTimer - frameDt);
@@ -384,6 +442,7 @@ int main(int argc, char** argv)
         BeginDrawing();
         ClearBackground(kBg);
         DrawTextureRec(view.texture, {0, 0, (float)kViewW, -(float)kViewH}, {0, 0}, WHITE);
+        if (showChart) drawChart(chart, session.time, showAxis);
 
         // TV
         const float s = kTv.width / knobs.screenW;
@@ -474,7 +533,7 @@ int main(int argc, char** argv)
         text(gSmall, sc, 12, hy, kText);
         hy += 22;
         text(gSmall, "R đặt lại  ·  Space / Enter = nút OK (chọn ô)  ·  A ẩn/hiện trục xoay  ·  "
-                     "G ẩn/hiện con trỏ đúng  ·  P tạm dừng", 12, hy, kText);
+                     "G ẩn/hiện con trỏ đúng  ·  C biểu đồ góc  ·  P tạm dừng", 12, hy, kText);
         hy += 30;
         text(gSmall, TextFormat("Knobs:  N noise %.1f °/s   ·   B gyroBias %.1f °/s   ·   T handTremor %.1f°   ·   "
                                 "sampleRate %.0f Hz   ·   screen %d×%d",

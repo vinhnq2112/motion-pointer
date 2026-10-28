@@ -28,3 +28,6 @@ One row per technical term, added the first time the term is used (`CLAUDE.md` w
 | roll | vặn cổ tay | Xoay quanh trục x của remote (trục dọc thân, hướng về TV). | Vặn cổ tay → mũi đứng yên, con trỏ không đi. | 2026-10-22 |
 | direction of motion | hướng chuyển động | Hướng mà một điểm trên remote đang đi tới; luôn vuông góc với trục xoay. | yaw: trục dọc (z), mũi đi ngang. | 2026-10-22 |
 | right-hand rule | quy tắc bàn tay phải | Cách tìm chiều quay dương: ngón cái theo trục, bốn ngón cong theo chiều dương. | Ngón cái lên (+z) → yaw dương = mũi sang trái. | 2026-10-22 |
+| integration | tích phân (cộng dồn) | Cộng rất nhiều mẩu nhỏ `rate × dt` lại để ra tổng (ở đây: góc). | 200 sample × 0.1° = 20° | 2026-10-28 |
+| dt (delta time) | khoảng thời gian một sample | Thời gian từ sample trước đến sample này, đơn vị giây. | 100 Hz → `dt = 0.01 s` | 2026-10-28 |
+| sample rate | tần số lấy mẫu | Số sample mỗi giây, đơn vị Hz. `dt = 1 ÷ sample rate`. | 200 Hz → `dt = 0.005 s` | 2026-10-28 |

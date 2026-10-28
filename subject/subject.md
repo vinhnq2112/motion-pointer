@@ -11,6 +11,11 @@
 - **Learning needs:** yếu hình học không gian → **visuals first** (`CLAUDE.md` rule 11). Mỗi ý mới: cho xem
   hình hoặc chuyển động trong simulator `imu-sim` trước, có vẽ trục xoay bằng mũi tên màu, rồi mới nói quy tắc.
   Luôn tách rõ "hướng chuyển động" và "trục xoay".
+- **Công thức và code (learner yêu cầu 2026-10-28):** mỗi khi đưa ra công thức hoặc một dòng code mới, giải
+  thích **từng ký hiệu** ngay bên dưới, trước khi hỏi: biến/tham số đến từ đâu (ví dụ `s` là tham số của
+  `onImuSample`), dấu `.` / `&` / `+=` nghĩa là gì, đơn vị của mỗi số. Kèm **một ví dụ có số thật**
+  (ví dụ `s.gyro.z = 15`, `s.dt = 0.01` → `0.15°`). Dùng bảng "Viết | Đọc là | Kiểu | Ví dụ".
+  Lý do: ngày 2026-10-28, mentor viết `yaw += s.gyro.z * s.dt` mà không nói `s` là gì → learner không hiểu.
 - **Language:** tiếng Việt, câu ngắn, từ phổ thông.
   - **Term language:** thuật ngữ kỹ thuật giữ tiếng Anh, lần đầu có giải thích tiếng Việt, rồi thêm vào
     `learning/glossary.md` (`CLAUDE.md` writing rule 11).
