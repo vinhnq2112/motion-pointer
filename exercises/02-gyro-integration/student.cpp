@@ -4,6 +4,7 @@
 //                  learning/knowledge/cpp/struct-member-access.md
 
 #include "student.h"
+Angles angle; // TODO 4: biến toàn cục (global) để giữ góc giữa các lần gọi onImuSample. Xem README.md, mục "YOU DECIDE".
 
 // Hàm chính của bài. Simulator (và tests) gọi hàm này một lần cho mỗi sample.
 //   a : góc hiện tại. Có dấu & → hàm sửa chính biến của người gọi.
@@ -24,8 +25,8 @@
 //   Nếu sampleRate fail mà yawSweep pass: bạn có viết thẳng số 0.01 không?
 void integrateGyro(Angles& a, const ImuSample& s)
 {
-    (void)a;
-    (void)s;
+    a.yaw += s.gyro.z * s.dt;   // TODO 2: sửa trục gyro đúng cho yaw
+    a.pitch += s.gyro.y * s.dt; // TODO 3: sửa trục gyro đúng cho pitch
 }
 
 // TODO 4: Nối hàm của bạn vào simulator.
@@ -44,6 +45,6 @@ void integrateGyro(Angles& a, const ImuSample& s)
 //   Test kiểm tra phần này: plugin.
 void onImuSample(const ImuSample& s, PointerState& p)
 {
-    (void)s;
-    (void)p;
+    integrateGyro(angle, s); // TODO 4: cộng sample mới vào góc đã tính ở lần gọi trước
+    reportAngles(angle.yaw, angle.pitch, 0); // TODO 4: báo simulator vẽ góc của bạn (roll = 0 vì bài này chưa tính)
 }

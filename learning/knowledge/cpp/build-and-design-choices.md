@@ -26,3 +26,15 @@
 
 **Hiểu sai đã gặp:** lúc đầu đếm ngược số chỗ cần sửa cho tình huống "quy ước dấu đổi".
 Lý do "vì code giống `tiltDown`" chưa đủ: một lý do phải so sánh hai lựa chọn.
+
+## Know-how — 2026-10-29 (exercise 02, cắm code vào imu-sim)
+**Lỗi gặp:** chạy trong PowerShell:
+`cmake -S tools/imu-sim -B build/imu-sim -DIMUSIM_PLUGIN=../../exercises/02-gyro-integration/student.cpp`
+→ `CMake Warning: Ignoring extra path from command line: "../../exercises/02-gyro-integration/student.cpp"`
+
+**Vì sao:** PowerShell tách tuỳ chọn ở chỗ `=` khi ngay sau đó là dấu chấm `.`. CMake nhận hai phần riêng:
+`-DIMUSIM_PLUGIN=` (giá trị rỗng) và `../../exercises/...` (một đường dẫn thừa, bị bỏ qua).
+
+**Cách sửa:** đặt cả tuỳ chọn trong dấu ngoặc kép:
+`cmake -S tools/imu-sim -B build/imu-sim "-DIMUSIM_PLUGIN=../../exercises/02-gyro-integration/student.cpp"`
+Cách này chạy được trong cả PowerShell và cmd.

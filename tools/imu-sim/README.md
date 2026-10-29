@@ -128,11 +128,14 @@ File `.cpp` của bạn có thể `#include` file `.h` nằm cùng thư mục (v
 Chọn file của bạn khi build (đường dẫn tính từ `tools/imu-sim/`):
 
 ```
-cmake -S tools/imu-sim -B build/imu-sim -DIMUSIM_PLUGIN=../../project/pointer.cpp
+cmake -S tools/imu-sim -B build/imu-sim "-DIMUSIM_PLUGIN=../../project/pointer.cpp"
 cmake --build build/imu-sim --config Release
 ```
 
-Muốn quay lại file mặc định: `-DIMUSIM_PLUGIN=plugin/placeholder.cpp`.
+Muốn quay lại file mặc định: `"-DIMUSIM_PLUGIN=plugin/placeholder.cpp"`.
+
+Luôn để cả tuỳ chọn `-D...=...` trong dấu ngoặc kép. PowerShell tách `-DTÊN=../..` thành hai phần ở chỗ `=.`, và CMake báo
+`Ignoring extra path from command line`.
 
 File mặc định `plugin/placeholder.cpp` **không làm gì**, nên con trỏ đứng yên ở giữa. File này chỉ giúp simulator
 chạy được khi bạn chưa viết code. Đây không phải lời giải.

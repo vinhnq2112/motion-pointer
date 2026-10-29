@@ -2,11 +2,11 @@
 
 - **Started:** 2026-10-21
 - **Course mode:** sprint
-- **Current phase:** Day 2 — Gyro: tốc độ xoay → góc
-- **Current topic:** Day 2 — lesson gyro → góc xong 2026-10-28 (explain-back 4). Tiếp: exercise 02 cộng dồn yaw/pitch
-- **Next step:** T4 28/10: `/quiz` trục xoay → `/lesson` gyro, `angle += rate * dt`
+- **Current phase:** Day 3 — Góc → con trỏ + screen bound
+- **Current topic:** Day 2 xong 2026-10-29 (exercise 02 pass 6/6, sai số 0.000°). Tiếp: Day 3
+- **Next step:** Day 3: `/quiz` (tích phân, độ lệch không tự sửa) → `/lesson` góc → pixel, gain, screen bound → `/exercise` 03
 - **Week of:** 2026-10-19
-- **Hours this week:** 1 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính
+- **Hours this week:** 2.5 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính
 
 ## This week
 ### Course plan (sprint, lập ngày 2026-10-21, lập lại 2026-10-27)
@@ -38,19 +38,21 @@ Nếu một buổi chưa đạt "Xong khi", buổi sau bắt đầu bằng phầ
 
 ## Completed
 - 01-axes-and-reference (S3) — passed 2026-10-27 (Phần A 4/4 test, Phần B 3/3 trục đúng; stretch bỏ qua)
+- 02-gyro-integration (S3) — passed 2026-10-29 (6/6 test, sai số yaw/pitch 0.000°; YOU DECIDE: global, lý do có so sánh)
 
 ## Scaffold levels
 Starter-material level per topic (`/exercise` → "Scaffold levels"). New topics start at S3.
 | Topic | Level | Last exercise | Last change |
 |---|---|---|---|
 | rotation: trục xoay + dấu | S2 | 01-axes-and-reference — passed, explain-back 4, không cần L4 | ↓ 2026-10-27 |
+| gyro: tích phân góc | S2 | 02-gyro-integration — passed, explain-back 4, không cần L4 | ↓ 2026-10-29 |
 
 ## Milestone status
 | Phase | Status | Exit criteria met |
 |---|---|---|
 | Day 0 Chuẩn bị (imu-sim) | done 2026-10-21 | build + tests OK; learner chạy được và xoay được bằng chuột |
 | Day 1 Trục xoay: yaw, pitch, roll | done 2026-10-27 | 3/3 trục + tên đúng; test `&` pass; explain-back 4 |
-| Day 2 Gyro: tốc độ xoay → góc | not started | – |
+| Day 2 Gyro: tốc độ xoay → góc | done 2026-10-29 | 6/6 test; sai số yaw/pitch 0.000° < 1° sau 10 s, noise tắt |
 | Day 3 Góc → con trỏ + screen bound | not started | – |
 | Day 4 Noise, bias, drift | not started | – |
 | Day 5 Accelerometer + complementary filter | not started | – |

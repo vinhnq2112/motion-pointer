@@ -64,13 +64,13 @@ cần đọc góc không.
 ## Câu trả lời của bạn
 
 ### YOU DECIDE (TODO 4)
-- Lựa chọn: _(1 static / 2 global)_
-- Lý do (1–2 câu, có so sánh): 
+- Lựa chọn: _global_
+- Lý do (1–2 câu, có so sánh): I choose global, because this variable may be used in other functions, if I choose static varialbe in onImuSample(), this variable is only modified by calling onImuSample() 
 
 ### Xem bằng mắt (sau khi 6 test pass)
 Làm theo mục "Xem trong imu-sim". Ghi lại:
-- Sai số yaw lớn nhất mà biểu đồ cho thấy trong `yaw-sweep`: ___°
-- Khi bấm **R** giữa chừng, nét mảnh có quay về 0 không? ___ Vì sao? (1 câu) ___
+- Sai số yaw lớn nhất mà biểu đồ cho thấy trong `yaw-sweep`: 0°
+- Khi bấm **R** giữa chừng, nét mảnh có quay về 0 không? khong, do bi cong don goc truoc do.
 
 ---
 
@@ -84,8 +84,8 @@ Ngày 4 sẽ học về **bias**: gyro báo một tốc độ nhỏ dù remote n
 
 | Bias | Thời gian | Đoán yaw (°) | Đo được `angle err` (°) |
 |---|---|---|---|
-| 0.5 °/s | 30 s | | |
-| 0.2 °/s | 30 s | | |
+| 0.5 °/s | 30 s | 15|15 |
+| 0.2 °/s | 30 s | 6| 6|
 
 ---
 
@@ -108,7 +108,7 @@ Test `yawSweep` và `pitchSweep` in một bảng: mỗi giây một dòng, có g
 
 4. Build simulator với file của bạn:
    ```
-   cmake -S tools/imu-sim -B build/imu-sim -DIMUSIM_PLUGIN=../../exercises/02-gyro-integration/student.cpp
+   cmake -S tools/imu-sim -B build/imu-sim "-DIMUSIM_PLUGIN=../../exercises/02-gyro-integration/student.cpp"
    cmake --build build/imu-sim --config Release
    ```
 5. Đo bằng số (không mở cửa sổ): `build\imu-sim\Release\imu-sim-headless.exe --scenario yaw-sweep`

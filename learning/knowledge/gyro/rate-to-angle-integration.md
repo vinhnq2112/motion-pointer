@@ -31,6 +31,27 @@ Lý do đúng: remote không còn quay → tốc độ xoay = 0.
 
 **Hỏi (learner):** `s` trong `s.gyro.z * s.dt` là gì? → xem `cpp/struct-member-access.md`.
 
+## Q&A — 2026-10-29 (exercise 02, xem bằng mắt)
+**Hỏi (learner):** Mỗi lần nhấn R, sai số cộng thêm đúng bằng góc thật trước đó. Vì sao dải mờ (góc thật) và
+nét mảnh (code của tôi) không trùng nhau nữa?
+
+**Trả lời:** phím R **dịch chuyển** remote về 0 ngay lập tức, remote **không xoay**. Gyro không đo được cú nhảy
+đó (gyro = 0), nên góc của bạn giữ nguyên. Integration chỉ biết góc **thay đổi** bao nhiêu, không bao giờ biết
+góc **thật** là bao nhiêu. Một lần lệch thì lệch mãi; các lần lệch cộng dồn.
+
+| Bước | Góc thật | Góc của bạn | Lệch |
+|---|---|---|---|
+| R lúc thật = 20° | 20 → 0 (nhảy) | 20 | +20 |
+| xoay tới −10° | −10 | 10 | +20 |
+| R lúc thật = −10° | −10 → 0 (nhảy) | 10 | +10 |
+
+**Hiểu sai đã gặp:**
+- "Lúc nhấn R, nếu vẫn giữ phím, gyro > 0 nên góc tăng." Đúng khi giữ phím, nhưng không phải lý do chính.
+- Câu kiểm tra (R ở 20°, rồi R ở −10°) → trả lời "0". Đúng: 10°. Sau khi xem bảng: R ở 15°, rồi R ở 5° → 20° (đúng).
+
+**Liên hệ:** remote thật không có phím R, nhưng bias gyro (Day 4) gây lệch nhỏ mỗi giây theo đúng cách này.
+Cần nguồn khác để kéo góc về đúng: accelerometer (Day 5), mép màn hình (Day 6).
+
 **Vì sao quan trọng cho bản demo:** `onImuSample` nhận gyro, không nhận góc. Muốn con trỏ chỉ đúng ô menu,
 code phải cộng dồn `s.gyro.z * s.dt` (yaw) và `s.gyro.y * s.dt` (pitch) ở mỗi sample.
 
