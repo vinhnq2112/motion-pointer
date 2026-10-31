@@ -29,6 +29,9 @@
   chọn được ô menu → remote nằm yên thì con trỏ không trôi → con trỏ không bao giờ ra ngoài màn hình.
 - **Final deliverable:** PowerPoint tiếng Anh, 60 phút, cho đồng nghiệp mới học (beginner). Có phần riêng về
   drift và cách xử lý, gồm cả screen bound (`/present`).
+  - **Audience quiz (learner yêu cầu 2026-10-30):** sau mỗi `/quiz`, lưu các câu hay vào `learning/showcase.md`
+    (dòng "Audience quiz" của topic đó, tiếng Anh, kèm đáp án). `/present` đưa chúng vào slide thành quiz nhỏ
+    cho khán giả.
 - **Deadline:** hết 7 ngày học.
 
 ## Time budget

@@ -31,3 +31,5 @@ One row per technical term, added the first time the term is used (`CLAUDE.md` w
 | integration | tích phân (cộng dồn) | Cộng rất nhiều mẩu nhỏ `rate × dt` lại để ra tổng (ở đây: góc). | 200 sample × 0.1° = 20° | 2026-10-28 |
 | dt (delta time) | khoảng thời gian một sample | Thời gian từ sample trước đến sample này, đơn vị giây. | 100 Hz → `dt = 0.01 s` | 2026-10-28 |
 | sample rate | tần số lấy mẫu | Số sample mỗi giây, đơn vị Hz. `dt = 1 ÷ sample rate`. | 200 Hz → `dt = 0.005 s` | 2026-10-28 |
+| pixel (px) | điểm ảnh | Một điểm sáng nhỏ trên màn hình; vị trí con trỏ đo bằng pixel. | TV 1920×1080: x từ 0 đến 1919. | 2026-10-31 |
+| clamp | kẹp | Đặt một số vào khoảng [thấp nhất, cao nhất]; số ngoài khoảng thành mép gần nhất. | clamp(−240, 0, 1919) = 0 | 2026-10-31 |

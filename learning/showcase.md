@@ -9,6 +9,7 @@ One entry per finished topic, added at session end. The key message is written b
 - **Visual:** <screenshot / diagram path, or what to capture from imu-sim>
 - **Evidence:** <a real number or result, e.g. "drift after 60 s: 14° → 0.8° with bias calibration">
 - **Demo idea:** <what to show live, or none>
+- **Audience quiz:** (optional) <short questions to ask the audience during the talk, with answers>
 -->
 
 ## Rotation axis vs motion direction (yaw, pitch, roll) — 2026-10-27
@@ -31,3 +32,12 @@ One entry per finished topic, added at session end. The key message is written b
   = 600 px of pointer drift while the remote lies still.
 - **Demo idea:** run `yaw-sweep`, press R in the middle: the computed line stays offset forever →
   "integration only knows changes, never the true angle" → lead-in to the drift section.
+- **Audience quiz:** (from `/quiz` 2026-10-30; the learner answered 3/3)
+  1. *Compute the angle.* Start at yaw = 0°. Turn at `gyro.z = 30` °/s for 0.5 s, 100 Hz,
+     code `yaw += gyro.z * dt`. Yaw after 0.5 s? → **15°** (30 × 0.5; or 50 samples × 0.3°).
+  2. *Does an error go away?* Remote lies still. One bad sample adds 5° by mistake. Then turn left 20°
+     and right 20°, back to the start (true yaw = 0°). Computed yaw? → **5°**: integration only adds
+     changes, so the error stays forever.
+  3. *Find the bug.* `yaw += gyro.z * 0.01f;` — the simulator now runs at 200 Hz. Turn at 30 °/s
+     for 0.5 s (true yaw = 15°). Computed yaw? → **30°**: `dt` is hard-coded as 0.01 s, but at 200 Hz
+     it is 0.005 s. Fix: use `s.dt`.

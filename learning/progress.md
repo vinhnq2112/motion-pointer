@@ -3,7 +3,7 @@
 - **Started:** 2026-10-21
 - **Course mode:** sprint
 - **Current phase:** Day 3 — Góc → con trỏ + screen bound
-- **Current topic:** Day 2 xong 2026-10-29 (exercise 02 pass 6/6, sai số 0.000°). Tiếp: Day 3
+- **Current topic:** Day 3 — lesson góc → pixel + clamp xong 2026-10-31 (explain-back 4). Tiếp: `/exercise` 03
 - **Next step:** Day 3: `/quiz` (tích phân, độ lệch không tự sửa) → `/lesson` góc → pixel, gain, screen bound → `/exercise` 03
 - **Week of:** 2026-10-19
 - **Hours this week:** 2.5 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính

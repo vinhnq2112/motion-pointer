@@ -9,3 +9,4 @@ Personal notes built from questions, lessons, reviews and mistakes. Maintained b
 | cpp | Build trên Windows · lựa chọn thiết kế nhỏ | `cpp/build-and-design-choices.md` | 4 | 2026-10-29 |
 | cpp | Đọc dữ liệu trong struct: `s.gyro.z` | `cpp/struct-member-access.md` | 1 | 2026-10-28 |
 | gyro | Từ tốc độ xoay đến góc (integration, `dt`) | `gyro/rate-to-angle-integration.md` | 4 | 2026-10-29 |
+| pointer | Từ góc đến pixel (gain, dấu) + screen bound (clamp) | `pointer/angle-to-pixel-and-clamp.md` | 3 | 2026-10-31 |
