@@ -7,8 +7,7 @@
 
 // TODO 2 — YOU DECIDE: chọn gain (px/°) cho con trỏ. Đọc README.md, mục "YOU DECIDE", rồi viết lý do vào README.
 //   Số 0 dưới đây chỉ để code build được. Gain = 0 thì con trỏ không bao giờ di chuyển.
-const float kGain = 0;
-
+const float kGain = 40.0f;
 Angles angle; // góc giữ giữa các lần gọi onImuSample (biến toàn cục, bạn đã chọn ở bài 02)
 
 // TODO 3: Viết lại thân hàm integrateGyro.
@@ -16,6 +15,8 @@ Angles angle; // góc giữ giữa các lần gọi onImuSample (biến toàn c�
 //   Test: integrate.
 void integrateGyro(Angles& a, const ImuSample& s)
 {
+    a.yaw += s.gyro.z * s.dt;
+    a.pitch += s.gyro.y * s.dt;
 }
 
 // TODO 4: Viết clampf: kẹp v vào khoảng [lo, hi].
@@ -27,7 +28,12 @@ void integrateGyro(Angles& a, const ImuSample& s)
 //   Test: clamp.
 float clampf(float v, float lo, float hi)
 {
-    return v; // TODO 4: dòng này chưa kẹp gì cả
+    if (v < lo) {
+        return lo;
+    } else if (v > hi) {
+        return hi;
+    }
+    return v;
 }
 
 // TODO 5: Viết anglesToPointer: đổi a.yaw, a.pitch thành vị trí con trỏ, rồi kẹp vào trong màn hình.
@@ -42,9 +48,14 @@ float clampf(float v, float lo, float hi)
 //   Tests: center, direction, bound.
 PointerState anglesToPointer(const Angles& a, float gain, float screenW, float screenH)
 {
-    return {0, 0}; // TODO 5: dòng này luôn trả về góc trên bên trái
+    float centerX = screenW / 2.0f;
+    float centerY = screenH / 2.0f;
+    float x = centerX - gain * a.yaw;
+    float y = centerY + gain * a.pitch;
+    x = clampf(x, 0, screenW - 1);
+    y = clampf(y, 0, screenH - 1);
+    return {x, y};
 }
-
 // TODO 6: Nối mọi thứ vào simulator. Mỗi lần simulator gọi onImuSample, hàm này phải:
 //     - cộng sample mới vào angle (integrateGyro)
 //     - đổi angle thành con trỏ bằng anglesToPointer, với kGain, kScreenW, kScreenH
@@ -53,6 +64,9 @@ PointerState anglesToPointer(const Angles& a, float gain, float screenW, float s
 //   Tests: plugin-sweep, plugin-wild.
 void onImuSample(const ImuSample& s, PointerState& p)
 {
+    integrateGyro(angle, s);
+    p = anglesToPointer(angle, kGain, kScreenW, kScreenH);
+    reportAngles(angle.yaw, angle.pitch, 0);
 }
 
 // Stretch goal (không bắt buộc, scaffold S2). Đọc README, mục "Stretch goal".
@@ -62,5 +76,7 @@ void onImuSample(const ImuSample& s, PointerState& p)
 //   Test: stretch-relative.
 float moveXByChange(float x, float dYaw, float gain, float screenW)
 {
-    return x; // TODO S2
+    x -= gain * dYaw;
+    x = clampf(x, 0, screenW - 1);
+    return x;
 }

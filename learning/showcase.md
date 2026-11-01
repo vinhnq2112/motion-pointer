@@ -41,3 +41,28 @@ One entry per finished topic, added at session end. The key message is written b
   3. *Find the bug.* `yaw += gyro.z * 0.01f;` — the simulator now runs at 200 Hz. Turn at 30 °/s
      for 0.5 s (true yaw = 15°). Computed yaw? → **30°**: `dt` is hard-coded as 0.01 s, but at 200 Hz
      it is 0.005 s. Fix: use `s.dt`.
+
+## From angle to pointer + screen bound (gain, clamp) — 2026-11-01
+- **Key message:** Gain turns an angle into pixels (how many pixels per degree); clamp keeps the pointer on the screen.
+  (Learner's words: "đổi góc thành con trỏ dùng gain. Nghĩa là 1 góc di chuyển tương ứng với bao nhiêu pixel. Giữ con trỏ
+  trong màn hình thì dùng clamp")
+- **Visual:** screen coordinates diagram: (0,0) top-left, y grows down, centre (960, 540).
+  Formulas `x = 960 − gain × yaw`, `y = 540 + gain × pitch` with "why − / why +".
+  Number line with clamp: −240 → 0, 560 → 560, 2500 → 1919.
+  Screenshot: `imu-sim.exe --gain 40 --scenario wild --screenshot wild.png --at 1.6` (pointer stuck at the edge).
+- **Evidence:** exercise 03: 7/7 tests, pointer error 0.01 px (yaw/pitch sweeps), 0 of 1000 samples off-screen in `wild`;
+  headless: off-screen 0 in all 6 scenarios. Gain choice: 20 px/° → 48° to reach the edge · 40 → 24°, 0.5° tremor = 20 px ·
+  80 → 12°, tremor = 40 px. Chose 40.
+  Limit of the simple model: after `wild`, angle error 21.75° (pointer at 1830, 332 instead of 960, 540), because
+  `yaw += gyro.z × dt` ignores tilt. Body-rate → Euler-rate conversion: 2.32° (`figure`: 1.94° → 0.01°). → "next step" slide.
+- **Demo idea:** run `wild` with the gain-40 plug-in: the pointer hits the edges but never leaves the TV.
+  Then show the stretch result: "add the change, then clamp" leaves a 240 px offset → lead-in to Day 6 (edge fixes drift).
+- **Audience quiz:** (from the Day 3 lesson and exercise 03; the learner answered all of them)
+  1. *Which sign?* Yaw +10° (nose turns left), gain 40, centre x = 960. New x? → **560**: yaw > 0 is left, screen x grows
+     to the right, so subtract.
+  2. *Off the screen?* Yaw +30°, gain 40. x? Still on a 1920-wide TV? → **−240, no** → clamp to 0.
+     (Common slip: using 1080, the screen height, as the centre.)
+  3. *Does clamp leave an error?* Yaw +30° (pointer clamped at 0), then back to 0°. Pointer recomputed from the angle every
+     sample. Final x? → **960**: nothing is remembered.
+  4. *Same, but "add the change, then clamp".* Final x? → **1200**: 240 px of motion were lost at the edge, so the pointer is
+     now 240 px away from where the remote points.

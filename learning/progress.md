@@ -2,11 +2,12 @@
 
 - **Started:** 2026-10-21
 - **Course mode:** sprint
-- **Current phase:** Day 3 — Góc → con trỏ + screen bound
-- **Current topic:** Day 3 — lesson góc → pixel + clamp xong 2026-10-31 (explain-back 4). Tiếp: `/exercise` 03
-- **Next step:** Day 3: `/quiz` (tích phân, độ lệch không tự sửa) → `/lesson` góc → pixel, gain, screen bound → `/exercise` 03
+- **Current phase:** Day 4 — Noise, bias, drift
+- **Current topic:** Day 3 xong 2026-11-01 (exercise 03 pass 7/7 + stretch, 0 sample ngoài màn hình). Tiếp: Day 4
+- **Next step:** Lập lại kế hoạch trước (kế hoạch cũ hết 1/11, mới xong 3/7 ngày; hỏi learner còn bao nhiêu buổi) →
+  Day 4: `/quiz` (số của từng trục, độ lệch không tự sửa) → `/lesson` noise vs bias → `/exercise` 04
 - **Week of:** 2026-10-19
-- **Hours this week:** 2.5 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính
+- **Hours this week:** 4.0 / ~9 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính
 
 ## This week
 ### Course plan (sprint, lập ngày 2026-10-21, lập lại 2026-10-27)
@@ -39,6 +40,7 @@ Nếu một buổi chưa đạt "Xong khi", buổi sau bắt đầu bằng phầ
 ## Completed
 - 01-axes-and-reference (S3) — passed 2026-10-27 (Phần A 4/4 test, Phần B 3/3 trục đúng; stretch bỏ qua)
 - 02-gyro-integration (S3) — passed 2026-10-29 (6/6 test, sai số yaw/pitch 0.000°; YOU DECIDE: global, lý do có so sánh)
+- 03-angles-to-pointer (S3) — passed 2026-11-01 (7/7 test, sai số 0.01 px, `wild` 0 sample ngoài màn hình; YOU DECIDE: gain 40, lý do có số; spatial check 3/3; stretch S2 pass: 1200 px, lệch 240 px)
 
 ## Scaffold levels
 Starter-material level per topic (`/exercise` → "Scaffold levels"). New topics start at S3.
@@ -46,6 +48,7 @@ Starter-material level per topic (`/exercise` → "Scaffold levels"). New topics
 |---|---|---|---|
 | rotation: trục xoay + dấu | S2 | 01-axes-and-reference — passed, explain-back 4, không cần L4 | ↓ 2026-10-27 |
 | gyro: tích phân góc | S2 | 02-gyro-integration — passed, explain-back 4, không cần L4 | ↓ 2026-10-29 |
+| pointer: góc → pixel + clamp | S2 | 03-angles-to-pointer — passed, explain-back 4, không cần L4 | ↓ 2026-11-01 |
 
 ## Milestone status
 | Phase | Status | Exit criteria met |
@@ -53,7 +56,7 @@ Starter-material level per topic (`/exercise` → "Scaffold levels"). New topics
 | Day 0 Chuẩn bị (imu-sim) | done 2026-10-21 | build + tests OK; learner chạy được và xoay được bằng chuột |
 | Day 1 Trục xoay: yaw, pitch, roll | done 2026-10-27 | 3/3 trục + tên đúng; test `&` pass; explain-back 4 |
 | Day 2 Gyro: tốc độ xoay → góc | done 2026-10-29 | 6/6 test; sai số yaw/pitch 0.000° < 1° sau 10 s, noise tắt |
-| Day 3 Góc → con trỏ + screen bound | not started | – |
+| Day 3 Góc → con trỏ + screen bound | done 2026-11-01 | 7/7 test; con trỏ đúng chiều (sai số 0.01 px, spatial check 3/3); `wild` 0 sample ngoài màn hình |
 | Day 4 Noise, bias, drift | not started | – |
 | Day 5 Accelerometer + complementary filter | not started | – |
 | Day 6 Xử lý drift + ghép demo | not started | – |

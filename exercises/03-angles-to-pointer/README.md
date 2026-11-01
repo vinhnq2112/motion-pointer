@@ -55,9 +55,9 @@ Gain lớn hay nhỏ đều có cái giá. Hãy tính trước khi chọn:
 
 | Gain (px/°) | Xoay bao nhiêu độ thì con trỏ đi từ giữa đến mép trái (960 px)? | Tay rung 0.5° → con trỏ rung bao nhiêu px? |
 |---|---|---|
-| 20 | ? | ? |
+| 20 | 960 ÷ 20 = 48° | 0.5 × 20 = 10 px |
 | 40 | 960 ÷ 40 = 24° | 0.5 × 40 = 20 px |
-| 80 | ? | ? |
+| 80 | 960 ÷ 80 = 12° | 0.5 × 80 = 40 px |
 
 - Gain **nhỏ**: phải xoay cổ tay nhiều mới tới mép màn hình.
 - Gain **lớn**: chỉ cần xoay ít, nhưng mỗi rung nhẹ của tay cũng làm con trỏ rung nhiều. Day 4 sẽ bật knob `handTremor`.
@@ -71,20 +71,20 @@ bạn chọn số đó.
 
 ### YOU DECIDE (TODO 2)
 - Bảng gain đã điền (4 ô `?`): ...
-- Gain của tôi: ___ px/°
-- Lý do (1–2 câu, có số): ...
+- Gain của tôi: 40 px/°
+- Lý do (1–2 câu, có số):  Với gain 40, xoay 24° thì tới mép, tay rung 0.5° làm con trỏ rung 20 px. Gain 20 cần xoay 48°, nên can xoay nhieu hon. Gain 80 làm con trỏ rung 40 px, nên rung nhieu hon. Vì vậy tôi chọn 40.
 
 ### Spatial check: xem bằng mắt (sau khi 7 test chính pass)
 Làm theo mục "Xem trong imu-sim". Trước mỗi lần thử, **đoán** chấm trắng sẽ đi hướng nào, rồi mới thử.
 
 | Bạn làm | Đoán: chấm trắng đi | Thấy: chấm trắng đi |
 |---|---|---|
-| Phím ← (yaw, mũi remote quay trái) | | |
-| Mũi remote chúc xuống (phím ↑ hoặc ↓, bạn tìm phím nào) | | |
-| Phím Q / E (roll) | | |
+| Phím ← (yaw, mũi remote quay trái) | trai| trai |
+| Mũi remote chúc xuống (phím ↑ hoặc ↓, bạn tìm phím nào) | xuong duoi | xuong duoi |
+| Phím Q / E (roll) | dung yen | dung yen |
 
-- Scenario `wild`: có lúc nào thấy chấm đỏ "ra ngoài màn hình" không? ___
-- Ở mép màn hình, chấm trắng và vòng vàng có trùng nhau không? ___
+- Scenario `wild`: có lúc nào thấy chấm đỏ "ra ngoài màn hình" không? khong
+- Ở mép màn hình, chấm trắng và vòng vàng có trùng nhau không? co
 
 ---
 
@@ -97,11 +97,15 @@ Ví dụ: TV rộng 1920, gain 40, con trỏ bắt đầu ở `x = 960`. Remote 
 
 1. **TODO S1 — đoán trước khi code:** với cách "cộng phần thay đổi rồi kẹp", `x` lúc cuối bằng bao nhiêu?
    Gợi ý: con trỏ đi được bao xa sang trái trước khi bị kẹp? Lúc quay về, con trỏ đi bao xa sang phải?
-   - Số đoán của tôi: ___ px. Vì sao: ...
+   - Số đoán của tôi: 1200 px. Vì sao: vì con trỏ bị kẹp ở 0 rồi đi phải 1200
 2. **TODO S2:** viết `moveXByChange` trong `student.cpp`, rồi chạy test `stretch-relative` (lệnh ở bước 3b).
-   - Số test in ra: ___ px. Khớp với số đoán không? ___
+   - Số test in ra: 1200 px. Khớp với số đoán không? co
 3. Một câu: so với cách của phần chính, cách này để lại gì sau khi con trỏ bị kẹp ở mép?
-   ...
+   Con trỏ nên ở x = 960, nhưng thực sự ở x = 1200, lệch 240 px so với chỗ remote đang chỉ.
+   remote đã quay về yaw = 0°, tức là chĩa thẳng vào giữa TV.
+   - Con trỏ nên ở x: 960
+   - Con trỏ thực sự ở x bằng 1200
+   - Hai số đó chênh nhau: 240
 
 ---
 
