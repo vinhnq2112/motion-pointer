@@ -31,6 +31,20 @@ Khoá học hiện tại chỉ dạy drift. Ba triệu chứng này đến từ 
 - **Applies to:** remote thật của learner; bản demo trong `imu-sim`.
 - **See also:** [[angle-to-pixel-and-clamp]] · [[rate-to-angle-integration]]
 
+### Chi tiết thêm: bật ngược xảy ra ở mép màn hình — 2026-11-01
+Learner mô tả: quay remote mạnh sang trái rồi dừng → con trỏ đi hết sang mép trái → con trỏ bật ngược sang phải.
+Ở mép màn hình, clamp giữ con trỏ đứng yên. Vì vậy mọi chuyển động nhỏ sang phải sau đó đều dễ nhìn thấy.
+Giả thuyết hợp với chi tiết này:
+1. Tay thật bật lại sang phải vài độ khi dừng gấp. Code gửi bước di chuyển (relative mode) và bỏ phần thừa ở mép,
+   nên con trỏ đi sang phải ngay. Dừng càng gấp, tay bật càng nhiều.
+2. Bias calibration tự động hoặc high-pass filter: sau khi quay mạnh sang trái, code trừ một "bias" sai → con trỏ đi phải.
+3. Bộ lọc có vọt lố (overshoot), ví dụ bộ lọc dự đoán theo vận tốc: vọt sang trái bị clamp cắt, phần quay về thì không bị cắt.
+4. Tràn `int8_t`: bước sang trái quá lớn đổi thành bước sang phải.
+Câu hỏi phân biệt: dừng gấp ở **giữa** màn hình (chưa chạm mép) thì con trỏ có bật ngược không?
+**Chưa có câu trả lời (2026-11-01).** Learner sẽ thử trên remote thật sau. Có bật ở giữa → clamp không phải nguyên nhân
+(nghĩ tới 2, 4). Chỉ bật ở mép → nghĩ tới 1, 3 trước. Đưa phép thử này vào checklist của Day 11.
+- **Applies to:** Day 4 (bias), Day 6 (bước, tràn số), Day 8 (lọc), Day 10 (screen bound).
+
 ## Pitfalls
 
 ## Know-how

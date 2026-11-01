@@ -103,10 +103,13 @@ với ≤ 45° quay.
 ## Ngày 10 — Xử lý drift cho con trỏ + ghép bản demo (1.5 h)
 - Dùng screen bound để sửa drift yaw: khi con trỏ chạm mép, phần chuyển động thừa bị bỏ đi, nên con trỏ
   và hướng tay khớp lại.
+- **Thêm:** triệu chứng thật "quay mạnh sang trái → con trỏ chạm mép trái → bật ngược sang phải". Ở mép, clamp
+  giữ con trỏ đứng yên, nên mọi chuyển động nhỏ sau đó đều lộ ra. So sánh vị trí tuyệt đối vs bước di chuyển ở mép.
 - Ghép tất cả vào `project/`: menu TV, chọn ô.
+- Lab: scenario `edge-slam` (quay mạnh sang trái chạm mép rồi dừng gấp, có tay bật lại) + số đo bật ngược ở mép.
 
 **Exit:** bản demo chạy trong `imu-sim`: chọn được ô menu; remote nằm yên 30 s thì con trỏ di chuyển < 5 px;
-con trỏ luôn trong màn hình.
+con trỏ luôn trong màn hình; `edge-slam` → bật ngược < 5 px.
 
 ## Ngày 11 — Điều tra: "remote bí ẩn" (1.5 h) — mới
 - Mentor giấu 3 lỗi trong một plug-in "remote bí ẩn" để tạo lại 3 triệu chứng. Learner không đọc code đó.
