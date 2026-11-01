@@ -11,3 +11,4 @@ Personal notes built from questions, lessons, reviews and mistakes. Maintained b
 | gyro | Từ tốc độ xoay đến góc (integration, `dt`) | `gyro/rate-to-angle-integration.md` | 4 | 2026-10-29 |
 | gyro | Vì sao `yaw += gyro.z × dt` chỉ gần đúng (body vs Euler rates) | `gyro/body-rates-vs-euler-rates.md` | 1 | 2026-11-01 |
 | pointer | Từ góc đến pixel (gain, dấu) + screen bound (clamp) | `pointer/angle-to-pixel-and-clamp.md` | 3 | 2026-10-31 |
+| pointer | Triệu chứng của remote thật: không mượt, bật ngược, cần quay mạnh | `pointer/real-remote-symptoms.md` | 1 | 2026-11-01 |

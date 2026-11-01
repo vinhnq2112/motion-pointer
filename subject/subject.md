@@ -24,6 +24,12 @@
 ## Goals
 - **Learning goal:** hiểu gyro và accelerometer đủ để tự viết code đổi dữ liệu IMU thành con trỏ trên TV:
   tích phân góc, noise, bias, drift, bias calibration, tilt từ trọng lực, complementary filter, screen bound.
+  - **Thêm 2026-11-01:** learner có một remote thật với 3 triệu chứng: con trỏ không mượt; quay mạnh rồi dừng
+    thì con trỏ bật ngược (càng mạnh càng xa); quay chậm thì con trỏ không đi. Khoá học thêm: bước di chuyển
+    (phần lẻ pixel, tràn `int8_t`), `dt` thật + gyro bão hoà, low-pass filter + độ trễ, pointer acceleration +
+    deadzone, và cách điều tra bằng số đo. Chỉ học bằng lý thuyết + `imu-sim`; learner **không chia sẻ được log
+    thật** và sẽ tự áp dụng lên remote thật sau khoá. Giả thuyết: `learning/knowledge/pointer/real-remote-symptoms.md`.
+    Luôn nối bài học mới với triệu chứng tương ứng của remote thật.
 - **Final project / proof of skill:** bản demo trong `imu-sim`: xoay remote ảo bằng chuột → code C++ của
   learner đổi dữ liệu gyro/accelerometer giả (có noise và drift) thành vị trí con trỏ trên TV ảo → con trỏ
   chọn được ô menu → remote nằm yên thì con trỏ không trôi → con trỏ không bao giờ ra ngoài màn hình.
@@ -32,11 +38,14 @@
   - **Audience quiz (learner yêu cầu 2026-10-30):** sau mỗi `/quiz`, lưu các câu hay vào `learning/showcase.md`
     (dòng "Audience quiz" của topic đó, tiếng Anh, kèm đáp án). `/present` đưa chúng vào slide thành quiz nhỏ
     cho khán giả.
-- **Deadline:** hết 7 ngày học.
+- **Deadline:** hết 13 ngày học (11/11; ban đầu là 7 ngày).
 
 ## Time budget
 - **Course mode:** sprint (mỗi ngày một phase).
 - 7 ngày × 1 giờ. Ngày 7: 2 giờ (1 giờ làm slide + 1 giờ tập nói). Tổng 8 giờ.
+  - **Cập nhật 2026-11-01:** thực tế mỗi buổi 1.5 giờ. Khoá mở rộng thành 13 ngày: Day 4 → Day 13, 10 buổi × 1.5 giờ,
+    2/11 → 11/11. Thêm 4 bài mới cho 3 triệu chứng của remote thật (xem "Learning goal") và 1 buổi điều tra.
+    Giữ đủ nội dung cũ. Lịch trong `learning/progress.md`, nội dung trong `subject/roadmap.md`.
 
 ## Teaching specifics
 - **Scope / standard:** góc Euler (yaw, pitch, roll) ở mức đơn giản; không có quaternion, magnetometer,
