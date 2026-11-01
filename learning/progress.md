@@ -3,10 +3,12 @@
 - **Started:** 2026-10-21
 - **Course mode:** sprint
 - **Current phase:** Day 4 — Noise, bias, drift
-- **Current topic:** Day 3 xong 2026-11-01 (exercise 03 pass 7/7 + stretch, 0 sample ngoài màn hình). Tiếp: Day 4
-- **Next step:** Day 4 (2/11): khởi động (con trỏ có cả x và y) → `/quiz` (độ lệch không tự sửa) → `/lesson` noise vs bias → `/exercise` 04
+- **Current topic:** Day 3 xong 2026-11-01 (exercise 03 pass 7/7 + stretch, 0 sample ngoài màn hình). Khoá đã lập
+  lại 2026-11-01 (13 ngày, đến 11/11). Tiếp: Day 4
+- **Next step:** Trước buổi học: mentor `/lab` thêm số đo "bật ngược" vào `imu-sim`. Day 4 (2/11): khởi động (con trỏ có
+  cả x và y) → `/quiz` (độ lệch không tự sửa) → `/lesson` noise vs bias + bẫy calibration khi đang quay → `/exercise` 04
 - **Week of:** 2026-11-02
-- **Hours this week:** 4.0 / ~19 (cả khoá, sprint; buổi 22/10 chưa ghi giờ) · Day 0: 0.5 h, không tính
+- **Hours this week:** 4.5 / ~19 (cả khoá, sprint; buổi 22/10 chưa ghi giờ; 1/11: 0.5 h lập kế hoạch) · Day 0: 0.5 h, không tính
 
 ## This week
 ### Course plan (sprint, lập ngày 2026-10-21, lập lại 2026-10-27 và 2026-11-01)
