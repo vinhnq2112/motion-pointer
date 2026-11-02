@@ -66,3 +66,13 @@ One entry per finished topic, added at session end. The key message is written b
      sample. Final x? → **960**: nothing is remembered.
   4. *Same, but "add the change, then clamp".* Final x? → **1200**: 240 px of motion were lost at the edge, so the pointer is
      now 240 px away from where the remote points.
+
+## Noise, bias and drift — 2026-11-02 (in progress; key message, visual, evidence added at session end)
+- **Audience quiz:** (from `/quiz` 2026-11-02)
+  1. *Lost samples.* Start at yaw 0°. Turn left 30°, but 20 samples are lost, so the code adds only 25°. Turn right back to
+     the true 0° (no samples lost). Computed yaw? Is the pointer at the centre? → **−5°, no**: 960 − 40 × (−5) = 1160, so
+     the pointer is 200 px right of centre. Integration never compares with the true angle, so the error stays.
+  2. *Drift from bias.* The remote lies still. Gyro bias +0.5 °/s, 100 Hz, `yaw += gyro.z * dt`, gain 40. After 60 s:
+     yaw? pointer x? → **30°** (0.005° × 6000 samples, or 0.5 °/s × 60 s) → x = 960 − 1200 = −240 → clamped to **0**: the
+     pointer has drifted to the left edge while nobody touched the remote.
+     (Common slip: 0.5 × 60 × 0.01 = 0.3°, using `dt` and the total time together.)

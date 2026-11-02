@@ -23,6 +23,9 @@ Số đo trong `imu-sim`, scenario `yaw-sweep` (headless, CSV):
 - **Nhầm dt khi đổi sampleRate**: 200 Hz → dt = 1 ÷ 200 = 0.005 s (không phải 0.02).
 - **Hai lý do khác nhau, đừng trộn:** nhân `dt` vì °/s × s = ° (đổi đơn vị). Dùng `s.dt` (không phải số cố định)
   vì sampleRate có thể đổi.
+- **Dùng `dt` hai lần** (quiz 2026-11-02): bias 0.5 °/s, 60 s → tính 0.5 × 60 × 0.01 = 0.3°. Đúng: 30°.
+  Chọn **một** cách: theo từng sample (0.5 × 0.01 = 0.005° × 6000 sample) **hoặc** theo cả khoảng thời gian
+  (0.5 °/s × 60 s). Không nhân cả tổng thời gian và `dt`.
 
 ## Q&A — 2026-10-28
 **Hỏi (mentor):** Remote xoay trái 20° rồi giữ yên. Gyro z đọc bao nhiêu?
